@@ -78,7 +78,7 @@ function showMessages(username, userid, symkey) {
       }
     }
     //if call params were recieved
-    if (signalingMsgs.length > 2)
+    if (signalingMsgs.length > 0)
     {
       if (!initiator){
       onOfferRecieved(signalingMsgs)
