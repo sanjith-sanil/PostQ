@@ -1,0 +1,34 @@
+/* PostQ - Post-Quantum Secure Messenger */
+var friend;
+
+function addFriend() {
+  friend = $('#inputFriendEmail').val();
+  //get the public key of the given friend
+  $.post("getPublicKey.php", { user: friend }, function(data, status){
+    if(data.startsWith("Error")) {
+      displayAlert("#alertNewFriend","danger",data);
+    } else { //no error
+      var publicKeyOfFriend = data;      
+      var encaps = NTRUEncapsulate(publicKeyOfFriend);
+      var plainkey = encaps[0];
+      var symkeyforfriend = encaps[1];
+      var symkeyforme = AESencryptCBC_arr(plainkey, decryptionkey);
+
+      $.post("addFriend.php", {
+        username: inputEmail, 
+        password: decodeURIComponent(authenticationkey),
+        friend: friend,
+        symkeyforme: symkeyforme, 
+        symkeyforfriend: symkeyforfriend
+        },
+        function(data, status){
+          if(data == "1") { //success
+            displayAlert("#alertNewFriend","success","Friend added successfully!");
+          } else {
+            displayAlert("#alertNewFriend","danger",data);
+          }
+          generateMenu();
+        });
+    }
+  });      
+}

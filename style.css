@@ -1,0 +1,1149 @@
+/*
+ * PostQ — Modern Dark Theme
+ * Post-Quantum Secure Messenger
+ */
+
+/* ============================================
+   Google Fonts
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   Design Tokens
+   ============================================ */
+:root {
+  /* Backgrounds */
+  --bg-deepest: #06080f;
+  --bg-base: #0f1221;
+  --bg-elevated: #171b2e;
+  --bg-surface: #1e2340;
+  --bg-hover: #252b4a;
+
+  /* Text */
+  --text-primary: #eef0f6;
+  --text-secondary: #8b92ab;
+  --text-muted: #5a6180;
+
+  /* Accent */
+  --accent: #7c6aff;
+  --accent-light: #9d8fff;
+  --accent-cyan: #00d4ff;
+  --accent-gradient: linear-gradient(135deg, #7c6aff 0%, #00d4ff 100%);
+
+  /* Semantic */
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.1);
+  --warning: #fbbf24;
+  --info: #60a5fa;
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-accent: rgba(124, 106, 255, 0.25);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 40px rgba(124, 106, 255, 0.12);
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms var(--ease);
+  --transition-base: 300ms var(--ease);
+  --transition-slow: 500ms var(--ease);
+}
+
+/* ============================================
+   Base & Reset
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  background: var(--bg-deepest);
+  color: var(--text-primary);
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+p {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-hover);
+}
+
+/* ============================================
+   Icon System
+   ============================================ */
+.icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: -3px;
+  flex-shrink: 0;
+}
+
+.icon-sm {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-lg {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-brand {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 0 8px rgba(124, 106, 255, 0.4));
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 106, 255, 0.1); }
+  50% { box-shadow: 0 0 30px rgba(124, 106, 255, 0.2); }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   LOGIN / REGISTER PAGE
+   ============================================ */
+#signin {
+  padding: 0;
+  background: var(--bg-deepest);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background orbs */
+#signin::before,
+#signin::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+#signin::before {
+  width: 400px;
+  height: 400px;
+  background: var(--accent);
+  top: -100px;
+  right: -100px;
+}
+
+#signin::after {
+  width: 350px;
+  height: 350px;
+  background: var(--accent-cyan);
+  bottom: -80px;
+  left: -80px;
+}
+
+.form-signin {
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+  margin: 0 auto;
+  background: rgba(15, 18, 33, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.6s var(--ease) both;
+}
+
+/* Gradient accent bar at top of login card */
+.form-signin::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 3px;
+  background: var(--accent-gradient);
+  border-radius: 0 0 var(--radius-full) var(--radius-full);
+}
+
+.form-signin .form-signin-heading,
+h2.form-signin-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.brand-tagline {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.brand-icon-wrapper {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.brand-icon-wrapper .icon-brand {
+  color: var(--accent);
+}
+
+/* Login form inputs */
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.15);
+  outline: none;
+  background: var(--bg-elevated);
+}
+
+.form-signin .form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 16px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Checkbox */
+.form-signin .checkbox {
+  margin-bottom: 20px;
+}
+
+.form-signin .checkbox label {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.form-signin .checkbox input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.help-icon {
+  color: var(--text-muted);
+  cursor: help;
+  transition: color var(--transition-fast);
+}
+
+.help-icon:hover {
+  color: var(--text-secondary);
+}
+
+/* Login Buttons */
+.btn-signin {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.btn-signin:focus {
+  outline: none;
+}
+
+.btn-signin-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(124, 106, 255, 0.25);
+  margin-bottom: 10px;
+}
+
+.btn-signin-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124, 106, 255, 0.35);
+}
+
+.btn-signin-primary:active {
+  transform: translateY(0);
+}
+
+.btn-signin-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.btn-signin-secondary:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
+/* Progress bar */
+.progress {
+  margin-top: 16px;
+  display: none;
+  height: 4px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+#scryptprogress,
+.progress-bar {
+  background: var(--accent-gradient);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: var(--radius-full);
+  box-shadow: none;
+  transition: width 0.3s ease;
+}
+
+/* ============================================
+   MAIN APP LAYOUT
+   ============================================ */
+#main {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-deepest);
+}
+
+#main > .row.height100 {
+  display: flex;
+  height: 100%;
+  margin: 0;
+}
+
+.height100 {
+  height: 100%;
+}
+
+.width100 {
+  width: 100%;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+#main > .row > .col-sm-3 {
+  padding: 0;
+  height: 100%;
+  float: none;
+}
+
+#main > .row > .col-sm-3 > .container-fluid {
+  height: 100%;
+  padding: 0;
+}
+
+.navbar-default {
+  background: rgba(15, 18, 33, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: none;
+  border-right: 1px solid var(--border);
+  border-radius: 0;
+  margin-bottom: 0;
+  height: 100%;
+  box-shadow: none;
+}
+
+#menuheader {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.navbar-header {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.navbar-brand,
+span.navbar-brand,
+.navbar-default .navbar-brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  letter-spacing: -0.02em;
+  padding: 0;
+  height: auto;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-brand .icon-brand {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+}
+
+/* Mobile toggle */
+.navbar-default .navbar-toggle {
+  border-color: var(--border-light);
+  margin: 0;
+  padding: 8px 10px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: var(--text-secondary);
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: var(--bg-hover);
+}
+
+/* Navigation Menu */
+#navbar {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#menu {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+}
+
+#menu li {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#menu li a,
+.navbar-default .navbar-nav > li > a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  color: var(--text-secondary) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+#menu li a:hover,
+.navbar-default .navbar-nav > li > a:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary) !important;
+  border-left-color: var(--accent);
+}
+
+#menu li.active a,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background: rgba(124, 106, 255, 0.08) !important;
+  color: var(--accent-light) !important;
+  border-left-color: var(--accent) !important;
+}
+
+#menu li a .icon {
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+#menu li a:hover .icon {
+  color: var(--accent-light);
+}
+
+#menu li.active a .icon {
+  color: var(--accent);
+}
+
+/* Divider for logout at bottom */
+#menu li:last-child {
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 4px;
+}
+
+#menu li:last-child a .icon {
+  color: var(--danger);
+  opacity: 0.7;
+}
+
+#menu li:last-child a:hover .icon {
+  opacity: 1;
+}
+
+/* ============================================
+   CONTENT AREA
+   ============================================ */
+#messageouterouter {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  overflow: hidden;
+  float: none !important;
+  width: auto !important;
+}
+
+#messagetitle,
+h2.msgtitle {
+  padding: 16px 24px;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  background: rgba(15, 18, 33, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#messagetitle a {
+  color: var(--text-muted);
+  margin-left: 8px;
+  transition: color var(--transition-fast);
+}
+
+#messagetitle a:hover {
+  color: var(--warning);
+}
+
+/* ============================================
+   ADD NEW FRIEND
+   ============================================ */
+#addnewfriend {
+  padding: 32px 24px;
+  max-width: 480px;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+#addnewfriend .form-control {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+#addnewfriend .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.15);
+  outline: none;
+  background: var(--bg-elevated);
+}
+
+#addnewfriend .form-control::placeholder {
+  color: var(--text-muted);
+}
+
+#addnewfriend .btn {
+  margin-top: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(124, 106, 255, 0.25);
+}
+
+#addnewfriend .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124, 106, 255, 0.35);
+}
+
+/* ============================================
+   FRIEND REQUESTS
+   ============================================ */
+#friendRequests {
+  padding: 24px;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+#symkeyrequestsouter,
+#friendrequestsouter {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+#symkeyrequestsouter div,
+#friendrequestsouter div {
+  padding: 10px 12px;
+  margin: 4px 0;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background var(--transition-fast);
+}
+
+#symkeyrequestsouter div:hover,
+#friendrequestsouter div:hover {
+  background: var(--bg-hover);
+}
+
+#symkeyrequestsouter a,
+#friendrequestsouter a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+/* Accept button (check icon) */
+#friendrequestsouter a:first-child,
+#symkeyrequestsouter a {
+  color: var(--success);
+}
+
+#friendrequestsouter a:first-child:hover,
+#symkeyrequestsouter a:hover {
+  background: var(--success-bg);
+}
+
+/* Reject button (x icon) */
+#friendrequestsouter a:nth-child(2) {
+  color: var(--danger);
+}
+
+#friendrequestsouter a:nth-child(2):hover {
+  background: var(--danger-bg);
+}
+
+#friendRequests hr {
+  border-color: var(--border);
+}
+
+/* ============================================
+   MESSAGES / CHAT
+   ============================================ */
+#messagesouter {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  max-height: none;
+  height: auto !important;
+}
+
+/* Override Bootstrap's pre-scrollable */
+.pre-scrollable {
+  max-height: none;
+  overflow-y: auto;
+}
+
+/* Chat Bubbles */
+.msgFromMe {
+  margin-left: 20% !important;
+  margin-right: 0 !important;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-weight: 400;
+}
+
+.msgToMe {
+  margin-right: 20% !important;
+  margin-left: 0 !important;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.msgFromMe,
+.msgToMe {
+  padding: 10px 16px;
+  margin: 6px 0;
+  border-radius: var(--radius-lg);
+  font-size: 0.93rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  animation: fadeIn 0.2s var(--ease);
+  max-width: 80%;
+}
+
+.msgFromMe {
+  border-bottom-right-radius: 4px;
+  margin-left: auto !important;
+}
+
+.msgToMe {
+  border-bottom-left-radius: 4px;
+}
+
+/* Symkey reminder */
+#messages > div:not(.msgFromMe):not(.msgToMe) {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 8px;
+  margin: 12px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Message Input Area */
+#textarea {
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-base);
+  flex-shrink: 0;
+}
+
+textarea,
+textarea.form-control {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-primary) !important;
+  padding: 12px 16px !important;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  resize: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
+  box-shadow: none !important;
+}
+
+textarea:focus,
+textarea.form-control:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.1) !important;
+  outline: none;
+}
+
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   VIDEO CALL
+   ============================================ */
+#videobox {
+  padding: 16px 24px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
+video {
+  --width: 45%;
+  width: var(--width);
+  height: calc(var(--width) * 0.75);
+  margin: 0 0 12px 0;
+  vertical-align: top;
+  border-radius: var(--radius-md);
+  background: var(--bg-deepest);
+  border: 1px solid var(--border);
+}
+
+video#localVideo {
+  margin-right: 16px;
+}
+
+/* Call Buttons */
+.call-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 24px 12px;
+  flex-shrink: 0;
+}
+
+button#callButton,
+button#hangupButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: auto;
+  margin: 8px 8px 8px 24px;
+}
+
+button#callButton {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+button#callButton:hover {
+  background: rgba(52, 211, 153, 0.25);
+}
+
+button#callButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button#hangupButton {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--danger);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  margin-left: 0;
+}
+
+button#hangupButton:hover {
+  background: rgba(248, 113, 113, 0.25);
+}
+
+button#hangupButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+.alert {
+  background: var(--bg-elevated);
+  border: none;
+  border-left: 3px solid var(--info);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  margin: 8px 0;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+.alert .close {
+  color: var(--text-muted);
+  opacity: 0.7;
+  text-shadow: none;
+  font-weight: 300;
+  font-size: 1.3rem;
+}
+
+.alert .close:hover {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.alert-success {
+  border-left-color: var(--success);
+  background: rgba(52, 211, 153, 0.08);
+}
+
+.alert-danger {
+  border-left-color: var(--danger);
+  background: rgba(248, 113, 113, 0.08);
+}
+
+.alert-warning {
+  border-left-color: var(--warning);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.alert-info {
+  border-left-color: var(--info);
+  background: rgba(96, 165, 250, 0.08);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  padding: 8px 16px;
+  background: var(--bg-deepest) !important;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   BOOTSTRAP OVERRIDES
+   ============================================ */
+
+/* Remove Bootstrap default button styling from the old classes */
+.btn-success,
+.btn-warning,
+.btn-lg,
+.btn-block {
+  /* These are overridden contextually above */
+}
+
+/* Make sure Bootstrap container doesn't add unwanted padding at the top level */
+#signin.container {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Fix Bootstrap navbar-collapse for dark theme */
+.navbar-collapse {
+  border-top: none;
+  box-shadow: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (min-width: 768px) {
+  #messageouterouter {
+    height: 100%;
+  }
+
+  #messagetitle {
+    padding: 16px 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #menubrand {
+    display: none;
+  }
+
+  #main > .row > .col-sm-3 {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+  }
+
+  #main > .row > .col-sm-9,
+  #main > .row > #messageouterouter {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  #messageouterouter {
+    margin-top: 50px;
+    height: calc(100% - 80px);
+  }
+
+  .navbar-absolute {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding-left: 15px;
+    bottom: auto;
+    z-index: 100;
+  }
+
+  #menu {
+    margin-top: 0;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+  }
+
+  #messagetitle {
+    display: none;
+  }
+
+  .msgtitle#menubrand {
+    padding-left: 45px;
+    width: calc(100% - 65px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex !important;
+  }
+
+  .form-signin {
+    margin: 16px;
+    padding: 28px 24px;
+  }
+
+  .msgFromMe {
+    margin-left: 10% !important;
+  }
+
+  .msgToMe {
+    margin-right: 10% !important;
+  }
+
+  video {
+    height: 90px;
+    margin: 0;
+    width: calc(50% - 7px);
+  }
+
+  video#localVideo {
+    margin: 0;
+  }
+
+  button#callButton,
+  button#hangupButton {
+    width: 83px;
+    margin: 0 8px 8px 0;
+  }
+}
+
+/* ============================================
+   UTILITY / MISC
+   ============================================ */
+div.box {
+  margin: 1em;
+}
+
+.height20 {
+  height: 20%;
+}
+
+/* Hide default list styling */
+li {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

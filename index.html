@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- PostQ - Post-Quantum Secure Messenger -->
+  <title>PostQ — Post-Quantum Secure Messenger</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PostQ is a web-based messenger with end-to-end post-quantum encryption using NTRU Prime and AES.">
+  <meta name="theme-color" content="#0f1221">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Basic external JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- Additional external JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.0/jquery.scrollTo.min.js"></script>
+  <script src="external/scrypt.js" type="text/javascript"></script>
+    <!-- Dependencies of scrypt-->
+  <script src="external/setImmediate.js" type="text/javascript"></script>
+  <script src="external/buffer.js" type="text/javascript"></script>
+  <script src="external/unorm.js" type="text/javascript"></script>
+  <script src="external/aes.js" type="text/javascript"></script>
+  <script src="external/secure-random.js" type="text/javascript"></script>
+  <script src="external/jquery.csv.min.js" type="text/javascript"></script>
+  <script src="external/sha512.min.js" type="text/javascript"></script>
+  <script src="polynomial.js" type="text/javascript"></script>
+
+  <!-- SVG Icon definitions -->
+  <script>
+  var ICONS = {
+    shield: '<svg class="icon icon-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    plus: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+    users: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    user: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    logout: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+    zap: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    check: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    x: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    info: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+    help: '<svg class="icon icon-sm help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    phone: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    phoneOff: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67"/><path d="M14.52 2a19.79 19.79 0 0 1 5.36 3.07"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+  };
+  </script>
+
+  <!-- Custom JS -->
+  <script src="postq.js" type="text/javascript"></script>
+  <script src="ntru.js" type="text/javascript"></script>
+  <script src="signin.js" type="text/javascript"></script>
+  <script src="aes.js" type="text/javascript"></script>
+  <script src="addFriend.js" type="text/javascript"></script>
+  <script src="handleFriendRequests.js" type="text/javascript"></script>
+  <script src="getFriendList.js" type="text/javascript"></script>
+  <script src="show.js" type="text/javascript"></script>
+
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="call.js" async></script>
+  <script src="signalMsg.js" type="text/javascript"></script>
+</head>
+<body onload="pageLoaded()">
+
+ <div id="signin" class="container">
+  <div class="form-signin">
+    <div class="brand-icon-wrapper">
+      <svg class="icon-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M12 8v4" stroke-width="2"/>
+        <circle cx="12" cy="15" r="0.5" fill="currentColor"/>
+      </svg>
+    </div>
+    <h2 class="form-signin-heading">PostQ</h2>
+    <p class="brand-tagline">Post-Quantum Secure Messenger</p>
+    <div id="loginalert"></div>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus value="">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required value="" onkeyup="if(event.keyCode == 13) signin();">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="remember-me" id="rememberMe"> Remember me
+        <svg class="icon icon-sm help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Session data will be kept in your browser local storage. Use only if you trust all users of your computer!">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </label>
+    </div>
+    <button class="btn-signin btn-signin-primary" id="btnSignin" onclick="signin()">Sign in</button>
+    <button class="btn-signin btn-signin-secondary" id="btnRegister" onclick="register()">Register</button>
+     <div class="progress">
+      <div id="scryptprogress" class="progress-bar progress-bar-striped active" role="progressbar"
+      aria-valuenow="0" aria-valuemin="0" aria-valuemax="1" style="width:0%">
+      </div>
+    </div>
+  </div>
+ </div> <!-- /container -->
+
+
+ <div id="main">
+  <div class="row height100">
+    <div class="col-sm-3">
+      <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-absolute" role="navigation">
+          <div class="container-fluid" id="menuheader">
+            <div class="navbar-header width100">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <span class="navbar-brand msgtitle" id="menubrand">
+                <svg class="icon-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                PostQ
+              </span>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+
+              <ul class="nav navbar-nav width100" id="menu">
+
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+        </nav>
+      </div>
+    </div>
+    <div class="col-sm-9" id="messageouterouter">
+      <h2 class="msgtitle" id="messagetitle">Add new friend</h2>
+      <div class="container-fluid" id="addnewfriend">
+        <br>
+        <div id="alertNewFriend"></div>
+        <label for="inputFriendEmail" class="sr-only">Friend's username</label>
+        <input type="email" id="inputFriendEmail" class="form-control" placeholder="Friend's username" required value="">
+        <button class="btn btn-lg btn-success btn-block" onclick="addFriend()">Add friend</button>
+      </div> <!-- addnewfriend -->
+      <div class="container-fluid" id="friendRequests">
+        <br>
+        <div id="alertFriendRequests" class="alertNewFriend"></div>
+        <div id="symkeyrequestsouter"></div>
+        <div id="friendrequestsouter"></div>
+      </div> <!-- friendRequests -->
+
+<div id="videobox" style="display: none;">
+    <video id="localVideo" playsinline autoplay muted></video>
+    <video id="remoteVideo" playsinline autoplay></video>
+  </div>
+      <div class="container-fluid height100" id="messagesouter">
+        <div id="alertMessages"></div>
+        <div class="pre-scrollable height100" id="messages">
+
+        </div>
+        <div id="textarea">
+          <textarea class="form-control" id="newmsg" rows="3" placeholder="Type a message..." onkeydown="if(event.keyCode == 13) return false;" onkeyup="if(event.keyCode == 13) send();"></textarea>
+        </div>
+        <button id="callButton">Call</button>
+        <button id="hangupButton">End</button>
+
+      </div> <!-- container-fluid -->
+
+    </div> <!-- .col-sm-10 -->
+  </div> <!-- .row -->
+ </div> <!-- #main -->
+
+  <footer class="container-fluid text-center">
+     &copy; PostQ &mdash; Post-Quantum Secure Messenger
+  </footer>
+</body>
+</html>
