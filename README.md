@@ -6,7 +6,6 @@
 
 A web-based end-to-end encrypted messenger application built with post-quantum cryptography — designed to stay secure even in the era of quantum computing.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white)]()
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)]()
 [![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1?logo=mysql&logoColor=white)]()
@@ -261,9 +260,3 @@ All libraries except Polynomial.js are unmodified and stored in the `external/` 
 - [ ] Dockerize the project for easier setup and contribution
 - [ ] End-to-end integration tests
 - [ ] CI/CD pipeline for automated testing on pull requests
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
