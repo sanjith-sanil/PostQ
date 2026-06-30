@@ -113,7 +113,7 @@ async function call() {
     const offer = await pc.createOffer(offerOptions);
     await onCreateOfferSuccess(offer);
     } catch (e) {
-    console.log(`Failed to create session description: ${error.toString()}`);
+    console.log(`Failed to create session description: ${e.toString()}`);
   }
 
 }
