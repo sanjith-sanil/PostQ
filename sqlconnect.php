@@ -10,8 +10,13 @@ $sqlusername = getenv("DB_USER") ?: ($sqlusername ?? "root");
 $sqlpassword = getenv("DB_PASS") ?: ($sqlpassword ?? "");
 $sqldbname = getenv("DB_NAME") ?: ($sqldbname ?? "postq");
 
+// Parse port if specified in DB_HOST (e.g. host:port)
+$db_host_parts = explode(":", $sqlservername);
+$sqlhost = $db_host_parts[0];
+$sqlport = isset($db_host_parts[1]) ? intval($db_host_parts[1]) : 3306;
+
 // Create connection
-$conn = new mysqli($sqlservername, $sqlusername, $sqlpassword, $sqldbname);
+$conn = new mysqli($sqlhost, $sqlusername, $sqlpassword, $sqldbname, $sqlport);
 
 // Check connection
 if ($conn->connect_error) {

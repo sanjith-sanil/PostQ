@@ -12,17 +12,22 @@ $sqlusername = getenv("DB_USER") ?: ($sqlusername ?? "root");
 $sqlpassword = getenv("DB_PASS") ?: ($sqlpassword ?? "");
 $sqldbname = getenv("DB_NAME") ?: ($sqldbname ?? "postq");
 
+// Parse port if specified in DB_HOST (e.g. host:port)
+$db_host_parts = explode(":", $sqlservername);
+$sqlhost = $db_host_parts[0];
+$sqlport = isset($db_host_parts[1]) ? intval($db_host_parts[1]) : 3306;
+
 echo "Attempting to connect to the database server...<br>";
 
 // 1. Try to create the database (if we have permissions, e.g. localhost)
-$temp_conn = @new mysqli($sqlservername, $sqlusername, $sqlpassword);
+$temp_conn = @new mysqli($sqlhost, $sqlusername, $sqlpassword, "", $sqlport);
 if ($temp_conn && !$temp_conn->connect_error) {
     @$temp_conn->query("CREATE DATABASE IF NOT EXISTS `{$sqldbname}` DEFAULT CHARACTER SET latin2 COLLATE latin2_hungarian_ci");
     $temp_conn->close();
 }
 
 // 2. Connect to the specified database
-$conn = new mysqli($sqlservername, $sqlusername, $sqlpassword, $sqldbname);
+$conn = new mysqli($sqlhost, $sqlusername, $sqlpassword, $sqldbname, $sqlport);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
