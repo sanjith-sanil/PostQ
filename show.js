@@ -90,7 +90,7 @@ function showMessages(username, userid, symkey) {
 
     $('#addnewfriend').hide();
     $('#friendRequests').hide();
-    $('.msgtitle').html(username + ' <a href="javascript:changeSymkey(\'' + username + '\', ' + userid + ')" title="Delete all my messages and enforce new secret code">' + ICONS.zap + '</a>');
+    $('.msgtitle').html(username + ' <a href="javascript:changeSymkey(\'' + username + '\', ' + userid + ')" title="Delete all my messages and enforce new secret code">' + ICONS.zap + '</a> <a href="javascript:removeFriend(\'' + username + '\', ' + userid + ')" title="Remove friend and delete all data">' + ICONS.userMinus + '</a>');
     $('#messagesouter').show();
     $('#messages').scrollTo("max");
     markSelected("menuMsgs"+userid);
@@ -139,3 +139,23 @@ $(document).on('click','.navbar-collapse.in',function(e) {
         $(this).collapse('hide');
     }
 });
+
+function removeFriend(username, userid) {
+  if (confirm("Are you sure you want to remove " + username + " as a friend? This will delete all messages and your shared secret key.")) {
+    $.post("removeFriend.php", {
+      username: inputEmail,
+      password: authenticationkey,
+      friendId: userid
+    },
+    function(data, status){
+      if (data == "1") {
+        clearTimeout(messageUpdateTimer);
+        $('#messagesouter').hide();
+        generateMenu();
+        showAddNewFriend();
+      } else {
+        displayAlert("#alertMessages", "danger", "Failed to remove friend: " + data);
+      }
+    });
+  }
+}
